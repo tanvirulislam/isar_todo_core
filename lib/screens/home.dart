@@ -13,6 +13,9 @@ class HomeScreen extends ConsumerWidget {
   List<Category> categories = [];
   Category? dropdownValue;
 
+  List<String> name = ['apple', 'samsung'];
+  String? value;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final routineProviderRef = ref.watch(rutineProvider);
@@ -45,23 +48,39 @@ class HomeScreen extends ConsumerWidget {
                 decoration: InputDecoration(),
               ),
               SizedBox(
-                width: 100,
-                height: 50,
+                height: 60,
                 child: DropdownButton(
                   isExpanded: true,
                   value: dropdownValue,
                   items: categories
                       .map(
                         (Category e) => DropdownMenuItem(
-                          value: e,
+                          value: e.name,
                           child: Text(
                             e.name.toString(),
                           ),
                         ),
                       )
                       .toList(),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    ref
+                        .read(rutineProvider.notifier)
+                        .updateInstantCategory(newCategory: dropdownValue);
+                  },
                 ),
+              ),
+              DropdownButton(
+                isExpanded: true,
+                value: value,
+                items: name
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {},
               ),
               SizedBox(height: 30),
               ElevatedButton(

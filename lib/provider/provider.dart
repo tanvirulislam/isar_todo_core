@@ -36,15 +36,15 @@ class RoutineNotifier extends AsyncNotifier<List<Routine>> {
   addCategory({name}) async {
     final newCategory = await Category()
       ..name = name;
-    isar.writeTxn(() async {
+    await isar.writeTxn(() async {
       await isar.categorys.put(newCategory);
     });
   }
 
-  deleteName({id}) {
-    return isar.writeTxn(
+  deleteName({id}) async {
+    return await isar.writeTxn(
       () async {
-        isar.routines.delete(id);
+        await isar.routines.delete(id);
       },
     );
   }
@@ -57,5 +57,13 @@ class RoutineNotifier extends AsyncNotifier<List<Routine>> {
         await isar.routines.put(getId);
       },
     );
+  }
+
+  updateInstantCategory({newCategory}) async {
+    await isar.writeTxn(() async {
+      final getName = await isar.routines.get(newCategory);
+      getName!..name = newCategory;
+      await isar.routines.put(getName);
+    });
   }
 }
