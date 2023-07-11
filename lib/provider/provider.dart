@@ -53,8 +53,8 @@ class RoutineNotifier extends AsyncNotifier<List<Routine>> {
     await isar.writeTxn(
       () async {
         final getId = await isar.routines.get(id);
-        getId!..name = name;
-        await isar.routines.put(getId);
+        // getId!..name = name;
+        await isar.routines.put(getId!..name = name);
       },
     );
   }

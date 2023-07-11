@@ -7,7 +7,7 @@ class HttpService {
     final response =
         await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
+      jsonDecode(response.body);
     }
   }
 }
